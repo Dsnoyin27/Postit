@@ -1,0 +1,92 @@
+'use strict';
+
+var fs        = require('fs');
+var path      = require('path');
+var Sequelize = require('sequelize');
+var basename  = path.basename(module.filename);
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/..\config.json')[env];
+var db        = {};
+
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+
+fs
+  .readdirSync(__dirname)
+  .filter(function(file) {
+    return (file.indexOf('.') !== 0) && (file !== basename);
+  })
+  .forEach(function(file) {
+    if (file.slice(-3) !== '.js') return;
+    var model = sequelize['import'](path.join(__dirname, file));
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(function(modelName) {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;
+
+var models = require('../models/index');
+router.post('/users', function(req, res) {
+  models.User.create({
+    email: req.body.email
+  }).then(function(user) {
+    res.json(user);
+  });
+});
+
+// get all todos
+router.get('/todos', function(req, res) {
+  models.Todo.findAll({}).then(function(todos) {
+    res.json(todos);
+  });
+});
+
+// add new todo
+router.post('/todos', function(req, res) {
+  models.Todo.create({
+    title: req.body.title,
+    UserId: req.body.user_id
+  }).then(function(todo) {
+    res.json(todo);
+  });
+});
+
+// get single todo
+router.get('/todo/:id', function(req, res) {
+  models.Todo.find({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(todo) {
+    res.json(todo);
+  });
+});
+
+// update single todo
+router.put('/todo/:id', function(req, res) {
+  models.Todo.find({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(todo) {
+    if(todo){
+      todo.updateAttributes({
+        title: req.body.title,
+        complete: req.body.complete
+      }).then(function(todo) {
+        res.send(todo);
+      });
+    }
+  });
+});
