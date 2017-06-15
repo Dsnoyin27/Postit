@@ -1,7 +1,7 @@
 const usersController = require('../controllers').users;
 
 module.exports = (app) => {
-  app.post('/api', (req, res) => res.status(200).send({
+  app.get('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the Postit API!',
   }));
 
