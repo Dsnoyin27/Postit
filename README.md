@@ -1,10 +1,15 @@
 # Postit
 Description
-Postit is a simple application that allows friends and colleagues create groups for notifications. This way one person can post notifications to everyone by sending a message once. The application allows people create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want.
+Postit is a simple application that allows friends and colleagues create groups for notifications. 
+This way one person can post notifications to everyone by sending a message once. 
+The application allows people create accounts, create groups and add registered users to the groups, 
+and then send messages out to these groups whenever they want.
+
 Pre-requisites
      NodeJS-Express-Postgres
      ReactJS (Redux)
-    Postman
+     Postman
+     
 Installation
 •	Copy the project path from repo
 •	In your terminal run git clone project path
