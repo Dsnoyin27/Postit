@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+  
+  <style>
+      html,
+      body,
+      div,
+      span {
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+      }
+      
+      body {
+          background: #ffccff;
+          background-size: cover;
+      }
+
+
+      .heading {
+          padding: 10px 16px 10px 15px;
+          margin: 0;
+          height: 60px;
+          width: 100%;
+          background-color: #b300b3;
+          z-index: 1000;
+      }
+
+      .heading-online {
+          display: none;
+          padding: 0 5px;
+          font-size: 12px;
+          color: #b300b3;
+      }
+     
+      .searchBox {
+          padding: 0 !important;
+          margin: 0 !important;
+          height: 60px;
+          width: 100%;
+      }
+
+      .searchBox-inner {
+          height: 100%;
+          width: 100%;
+          padding: 10px !important;
+          background-color:#ffb3ff;
+      }
+
+      .sideBar {
+          padding: 0 !important;
+          margin: 0 !important;
+          background-color: #ffccff;
+          overflow-y: auto;
+          border: 1px solid#ffb3ff;
+          height: calc(100% - 120px);
+      }
+
+      .sideBar-body {
+          position: relative;
+          padding: 10px !important;
+          border-bottom: 1px solid #e600e6;
+          height: 72px;
+          margin: 0 !important;
+          cursor: pointer;
+      }
+
+      .sideBar-body {
+          background-color: #f2f2f2;
+      }
+
+      
+
+      .sideBar-name {
+          padding: 10px !important;
+      }
+
+      .name-meta {
+          font-size: 100%;
+          padding: 1% !important;
+          text-align: left;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #000;
+      }
+      
+      .composeBox {
+          height: 60px;
+          width: 100%;
+      }
+
+      
+      .compose-sideBar {
+          padding: 0 !important;
+          margin: 0 !important;
+          background-color: #fff;
+          overflow-y: auto;
+          border: 1px solid #f7f7f7;
+          height: calc(100% - 160px);
+      }
+
+     
+      
+      .message-main-sender {
+          padding: 3px 20px !important;
+          margin-left: 40% !important;
+          max-width: 60%;
+      }
+
+      .message-text {
+          word-wrap:break-word;
+          font-weight: 200;
+          font-size: 14px;
+          padding-bottom: 0 !important;
+      }
+
+      
+
+      .receiver {
+          padding: 4px 10px 7px;
+          border-radius: 10px 10px 10px 0;
+          background: #ffffff;
+          font-size: 12px;
+          text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+          word-wrap: break-word;
+          display: inline-block;
+      }
+
+      .sender {
+          float: left;
+          background: #ffffff;
+          border-radius: 10px 10px 0 10px;
+          padding: 4px 10px 7px !important;
+          font-size: 12px;
+          text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+          display: inline-block;
+          word-wrap: break-word;
+      }
+
+      .reply {
+          height: 60px;
+          width: 100%;
+          background-color: #ffffff;
+          padding: 10px 5px 10px 5px;
+          z-index: 1000;
+      }
+      
+
+      .reply-main textarea {
+          width: 100%;
+          resize: none;
+          overflow: hidden;
+          padding: 5px !important;
+          text-indent: 5px;
+          box-shadow: none;
+          height: 100%;
+          font-size: 16px;
+      }
+
+          .heading {
+              height: 70px;
+              background-color: #ffb3ff;
+          }
+          
+          .sideBar {
+              height: 30;
+          }
+          .sideBar-body {
+              height: 80px;
+          }
+          .sideBar-main {
+              padding: 0 !important;
+          }
+          .sideBar-main .row {
+              padding: 0 !important;
+              margin: 0 !important;
+          }
+          
+  </style>
+</head>
+
+<body>
+
+  <div class="container app">
+    <div class="row app-one">
+      <div class="col-sm-4 side">
+        <div class="side-one">
+          <div class="row heading">
+            <div class="col-sm-3 col-xs-3 heading-avatar">
+              <div class="heading-avatar-icon">
+                <img src="">
+              </div>
+            </div>
+            <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
+              <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+            </div>
+            <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+              <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+            </div>
+          </div>
+    
+          <div class="row searchBox">
+            <div class="col-sm-12 searchBox-inner">
+              <div class="form-group has-feedback">
+                <input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+              </div>
+            </div>
+          </div>
+
+         
+          <div class="row sideBar">
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="">
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="">
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="">
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                <div class="avatar-icon">
+                  <img src="">
+                </div>
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="side-two">
+
+          <div class="row newMessage-heading">
+            <div class="row newMessage-main">
+              <div class="col-sm-2 col-xs-2 newMessage-back">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+              </div>
+              <div class="col-sm-10 col-xs-10 newMessage-title">
+                New Chat
+              </div>
+            </div>
+          </div>
+          <div class="row composeBox">
+            <div class="col-sm-12 composeBox-inner">
+              <div class="form-group has-feedback">
+                <input id="composeText" type="text" class="form-control" name="searchText" placeholder="Search People">
+              </div>
+            </div>
+          </div>
+
+          <div class="row compose-sideBar">
+            <div class="row sideBar-body">
+              <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                
+              </div>
+              <div class="col-sm-9 col-xs-9 sideBar-main">
+                <div class="row">
+                  <div class="col-sm-8 col-xs-8 sideBar-name">
+                    <span class="name-meta">Username
+                  </span>
+                  </div>
+                  <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                    <span class="time-meta pull-right">18:18
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8 conversation">
+        <div class="row heading">
+          <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+            <div class="heading-avatar-icon">
+              <img src="">
+            </div>
+          </div>
+          <div class="col-sm-8 col-xs-7 heading-name">
+            <a class="heading-name-meta">Username
+            </a>
+            <span class="heading-online">Online</span>
+          </div>
+          <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="row message" id="conversation">
+
+          
+
+          <div class="row message-body">
+            <div class="col-sm-12 message-main-receiver">
+              <div class="receiver">
+                <div class="message-text">
+            </div>
+          </div>
+
+          <div class="row message-body">
+            <div class="col-sm-12 message-main-sender">
+              <div class="sender">
+                <div class="message-text">
+                </div>
+             
+              </div>
+            </div>
+          </div>
+        </div>
+     
+        <div class="row reply">
+          <div class="col-sm-1 col-xs-1 reply-emojis">
+            <i class="fa fa-smile-o fa-2x"></i>
+          </div>
+          <div class="col-sm-9 col-xs-9 reply-main">
+            <textarea class="form-control" rows="1" id="comment"></textarea>
+          </div>
+          
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

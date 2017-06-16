@@ -1,51 +1,12 @@
-const usersController = require('../controllers').users;
-
-module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Postit API!',
-  }));
-
-  app.post('/api/users/signup', usersController.create); 
-  app.post('/api/users/signin', usersController.create);
-  
-};
-
-
-
-
-/*
-  	 let un = document.loginform.usr.value;
-     let pw = document.loginform.pword.value;
-     let em = document.loginform.email.value;
-     let username = "username";
-     let email = "email";
-     let password = "password";
-     if ((un == username) && (pw == password) && (em == email)) {
-     	window.location = "main.html";
-            return ("You are already a member");
-    }    else {
-            console.log ("Sign up successful, welcome to Postit");
-};
-
-  };
-
-
-  app.post('/api/users/signin', ( req, res) =>{
-  	 let un = document.loginform.usr.value;
-     let pw = document.loginform.pword.value;
-     let username = "username";
-     let password = "password";
-     if ((un == username) && (pw == password)) {
-     	window.location = "main.html";
-            return ("You have successfully logged in");
-    }    else {
-            console.log ("Login was unsuccessful, please check your username and password")
-        }
-
-  app.post('/api/group', ( req, res) =>{}
-  app.post('/api/users/signin', ( req, res) =>{}
-  app.post('/api/group/<group id>/message', ( req, res) =>{}
-  app.get('/api/group/<group id>/messages', ( req, res) =>{}
-
-
-};  */
+<head>
+  <title>Whatsapp Template</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <!-- Font Awesome File -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  </head>

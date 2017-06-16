@@ -1,0 +1,172 @@
+
+
+
+
+
+<style>
+      html,
+      body,
+      div,
+      span {
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+      }
+      
+      body {
+          background: white;
+          background-size: cover;
+      }
+
+
+      .heading {
+          padding: 10px 16px 10px 15px;
+          margin: 0;
+          height: 60px;
+          width: 100%;
+          background-color: purple;
+          z-index: 1000;
+      }
+
+      .heading-online {
+          display: none;
+          padding: 0 5px;
+          font-size: 12px;
+          color: #b300b3;
+      }
+     
+      .searchBox {
+          padding: 0 !important;
+          margin: 0 !important;
+          height: 60px;
+          width: 100%;
+      }
+
+      .sideBar {
+          padding: 0 !important;
+          margin: 0 !important;
+          background-color: white;
+          overflow-y: auto;
+          border: 1px solid#ffb3ff;
+          height: calc(100% - 120px);
+      }
+
+      .sideBar-body {
+          position: relative;
+          padding: 10px !important;
+          border-bottom: 1px solid #e600e6;
+          height: 72px;
+          margin: 0;
+          cursor: pointer;
+      }
+
+      .sideBar-body {
+          background-color: white;
+      }
+
+      
+
+      .sideBar-name {
+          padding: 10px;
+      }
+
+      .name-meta {
+          font-size: 100%;
+          padding: 1% !important;
+          text-align: left;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #000;
+      }
+      
+      .composeBox {
+          height: 60px;
+          width: 100%;
+      }
+
+      
+      .compose-sideBar {
+          padding: 0;
+          margin: 0;
+          background-color: white;
+          overflow-y: auto;
+          border: 1px solid purple;
+          height: calc(100% - 160px);
+      }
+
+     
+      
+      .message-main-sender {
+          padding: 3px 20px;
+          margin-left: 40% ;
+          max-width: 60%;
+      }
+
+      .message-text {
+          font-weight: 200;
+          font-size: 14px;
+          padding-bottom: 0 ;
+      }
+
+      
+
+      .receiver {
+          padding: 4px 10px 7px;
+          border-radius: 10px 10px 10px 0;
+          background: #ffffff;
+          font-size: 12px;
+          text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+          display: inline-block;
+      }
+
+      .sender {
+          float: left;
+          background: white;
+          border-radius: 10px 10px 0 10px;
+          padding: 4px 10px 7px !important;
+          font-size: 12px;
+          display: inline-block;
+          word-wrap: break-word;
+      }
+
+      .reply {
+          height: 60px;
+          width: 100%;
+          background-color: white;
+          padding: 10px 5px 10px 5px;
+          z-index: 1000;
+      }
+      
+
+      .reply-main textarea {
+          width: 100%;
+          resize: none;
+          overflow: hidden;
+          padding: 5px !important;
+          text-indent: 5px;
+          height: 100%;
+          font-size: 16px;
+      }
+
+          .heading {
+              height: 70px;
+              background-color: purple;
+          }
+          
+          .sideBar {
+              height: 30;
+          }
+          .sideBar-body {
+              height: 80px;
+          }
+          .sideBar-main {
+              padding: 0;
+          }
+          .sideBar-main .row {
+              padding: 0;
+              margin: 0;
+          }
+          </style>
