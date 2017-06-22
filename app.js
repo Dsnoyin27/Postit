@@ -2,21 +2,19 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const route = require('./server/routes/index');
 
 const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', route); //tell express about routes
 
-// Require our routes into the application.
-require('./server/routes')(app);
-//  app.post('api/users', (req, res) => res.status(200).send({
-//   message: 'Welcome.',
-//  }));
+ app.get('/', (req, res) => res.status(200).send({
+    message: 'Welcome to the Postit API!',
+  }));
 
-// //require('./server/routes')(app);
-//  app.post('/api/users/signup', usersController.create);
-//  // message: 'Successfully Welcome.',
-//  //};
+
+ 
 
 module.exports = app;
