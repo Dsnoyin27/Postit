@@ -8,5 +8,8 @@ module.exports = {
       })
       .then(group_users => res.status(201).send(group_users))
       .catch(error => res.status(400).send(error));
+
+
+
   },
 };

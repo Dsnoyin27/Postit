@@ -1,51 +1,18 @@
-const usersController = require('../controllers').users;
+const usersController = require('../controllers/usersController');
+const groupsController = require('../controllers/groupsController');
+const express = require('express');
 
-module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Postit API!',
-  }));
+const router= express.Router();
 
-  app.post('/api/users/signup', usersController.create); 
-  app.post('/api/users/signin', usersController.create);
+router.post('/api/user/signup', usersController.signup); 
+router.post('/api/user/signin', usersController.signin);
+router.post('/api/group', groupsController.createGroup);
+router.post('/api/group/:group_id', groupsController.createMessage);
+router.post('/api/group/:group_id/message', groupsController.addGroupUser);
+router.get('/api/group/:group_id/messages', groupsController.findMessage);
+
+module.exports = router;
+
   
-};
 
 
-
-
-/*
-  	 let un = document.loginform.usr.value;
-     let pw = document.loginform.pword.value;
-     let em = document.loginform.email.value;
-     let username = "username";
-     let email = "email";
-     let password = "password";
-     if ((un == username) && (pw == password) && (em == email)) {
-     	window.location = "main.html";
-            return ("You are already a member");
-    }    else {
-            console.log ("Sign up successful, welcome to Postit");
-};
-
-  };
-
-
-  app.post('/api/users/signin', ( req, res) =>{
-  	 let un = document.loginform.usr.value;
-     let pw = document.loginform.pword.value;
-     let username = "username";
-     let password = "password";
-     if ((un == username) && (pw == password)) {
-     	window.location = "main.html";
-            return ("You have successfully logged in");
-    }    else {
-            console.log ("Login was unsuccessful, please check your username and password")
-        }
-
-  app.post('/api/group', ( req, res) =>{}
-  app.post('/api/users/signin', ( req, res) =>{}
-  app.post('/api/group/<group id>/message', ( req, res) =>{}
-  app.get('/api/group/<group id>/messages', ( req, res) =>{}
-
-
-};  */
