@@ -1,5 +1,9 @@
 import React from "react";
 import classnames from "classnames";
+import TextFieldGroup from "../common/TextFieldGroup";
+import {browserHistory} from 'react-router';
+
+import validateInput from "../../../server/shared/validations/signup";
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -19,12 +23,28 @@ class SignupForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  isValid(){
+    const {errors, isValid}=validateInput(this.state);
+    if(!isValid){
+      this.setState({errors});
+    }
+    return isValid;
+  }
+
   onSubmit(e) {
+
     e.preventDefault();
-    this.setState({ errors: {}, isLoading: true });
-    this.props
-      .userSignupRequest(this.state)
-      .then(() => {}, ({ data }) => this.setState({ errors: data, isLoading: false }));
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: true });
+      this.props
+        .userSignupRequest(this.state)
+        .then(
+          () => {
+            browserHistory.push('/');
+          },
+          ({ data }) => this.setState({ errors: data, isLoading: false })
+        );
+    }
   }
 
   render() {
@@ -32,67 +52,58 @@ class SignupForm extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         <h1> Join Postit!</h1>
-        <div
-          className={classnames("form-group", { "has-error": errors.username })}
-        >
-          <label className="control-label">Username</label>
-          <input
-            value={this.state.username}
-            onChange={this.onChange}
-            type="text"
-            name="username"
-            className="form-control"
-          />
-          {errors.username &&
-            <span className="help-block">{errors.username}</span>}
-        </div>
-        <div className={classnames("form-group", { "has-error": errors.email })}>
-          <label className="control-label">Email</label>
-          <input
-            value={this.state.email}
-            onChange={this.onChange}
-            type="text"
-            name="email"
-            className="form-control"
-          />
 
-          {errors.email &&
-            <span className="help-block">{errors.email}</span>}
-        </div>
-        <div className={classnames("form-group", { "has-error": errors.password })}>
-          <label className="control-label">Password</label>
-          <input
-            value={this.state.password}
-            onChange={this.onChange}
-            type="text"
-            name="password"
-            className="form-control"
-          />
-          {errors.password &&
-            <span className="help-block">{errors.password}</span>}
-        </div>
-        <div className={classnames("form-group", { "has-error": errors.confirmPassword })}>
-          <label className="control-label">Confirm Password</label>
-          <input
-            value={this.state.confirmPassword}
-            onChange={this.onChange}
-            type="text"
-            name="confirmPassword"
-            className="form-control"
-          />
-          {errors.confirmPassword &&
-            <span className="help-block">{errors.confirmPassword}</span>}
-        </div>
+        <TextFieldGroup
+        error={errors.username}
+        label="username"
+        onChange = {this.onChange}
+        value={this.state.username}
+        field = "username"/>
+
+        <TextFieldGroup
+        error={errors.email}
+        label="email"
+        onChange = {this.onChange}
+        value={this.state.email}
+        field = "email"/>
+
+        <TextFieldGroup
+        error={errors.password}
+        label="password"
+        onChange = {this.onChange}
+        value={this.state.password}
+        field = "password"/>
+
+        <TextFieldGroup
+        error={errors.confirmPassword}
+        label="confirmPassword"
+        onChange = {this.onChange}
+        value={this.state.confirmPassword}
+        field = "confirmPassword"/>
+
+
         <div className="form-group">
-          <button disabled ={this.state.isLoading } className="btn btn-primary btn-lg" basic color="purple">
+          <button
+            disabled={this.state.isLoading}
+            className="btn btn-primary btn-lg"
+            basic
+            color="purple"
+          >
             Sign up
           </button>
         </div>
         <div><h4>Or</h4></div>
-        <div>
-          <button className="btn btn-primary btn-danger btn-lg">
-            <i aria-hidden="true" class="google plus icon" /> Signup with Google
-          </button>
+
+        <div className="form-group">
+          <a
+            href="https://accounts.google.com/signin/v2/sl/pwd?hl=En&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+            target="blank"
+          >
+            <button className="btn btn-primary btn-danger btn-lg">
+              <i aria-hidden="true" class="google plus icon" /> Signup with
+              Google
+            </button>
+          </a>
         </div>
       </form>
     );
