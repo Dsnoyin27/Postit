@@ -1,21 +1,21 @@
 import React from 'react';
 import classnames from 'classnames';
 
-const TextFieldGroup = ({field, value, label, error, onChange }) => {
+const TextFieldGroup = ({field, value, label, errors, type, onChange }) => {
   return (
     <div
-          className={classnames("form-group", { "has-error": errors.username })}
+          className={classnames("form-group", { "has-error": errors })}
         >
-          <label className="control-label">Username</label>
+          <label className="control-label">{label}</label>
           <input
-            value={this.state.username}
-            onChange={this.onChange}
-            type="text"
-            name="username"
+            value={value}
+            onChange={onChange}
+            type={type}
+            name={field}
             className="form-control"
           />
-          {errors.username &&
-            <span className="help-block">{errors.username}</span>}
+          {errors &&
+            <span className="help-block">{errors}</span>}
         </div>
   );
 }
@@ -31,4 +31,4 @@ const TextFieldGroup = ({field, value, label, error, onChange }) => {
   }
 
 
-export default;
+export default TextFieldGroup;

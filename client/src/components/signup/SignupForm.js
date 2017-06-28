@@ -1,9 +1,41 @@
 import React from "react";
 import classnames from "classnames";
-import TextFieldGroup from "../common/TextFieldGroup";
-import {browserHistory} from 'react-router';
+import TextFieldGroup from "./TextFieldGroup";
+import { browserHistory } from "react-router";
+import {addFlashMessage} from "./flashMessages";
+import Validator from "validator";
+import isEmpty from "lodash/isEmpty";
 
-import validateInput from "../../../server/shared/validations/signup";
+
+function validateInput(data){
+  let errors = {};
+  if (Validator.isNull(data.username)) {
+    errors.username = "This field is required";
+  }
+  if (Validator.isNull(data.email)) {
+    errors.email = "This field is required";
+  }
+  if(!Validator.isEmail(data.email)){
+    errors.email = "Email is invalid";
+  }
+  if (Validator.isNull(data.password)) {
+    errors.password = "This field is required";
+  }
+  if (Validator.isNull(data.confirmPassword)) {
+    errors.confirmPassword = "This field is required";
+  }
+  if(!Validator.equals(data.password, data.confirmPassword)){
+    errors.confirmPassword = "Password must match";
+  }
+  return{
+    errors,
+    isvalid: isEmpty(errors)
+  }
+
+}
+
+
+
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -23,27 +55,28 @@ class SignupForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  isValid(){
-    const {errors, isValid}=validateInput(this.state);
-    if(!isValid){
-      this.setState({errors});
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+    if (!isValid) {
+      this.setState({ errors });
     }
     return isValid;
   }
 
   onSubmit(e) {
-
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props
-        .userSignupRequest(this.state)
-        .then(
-          () => {
-            browserHistory.push('/');
-          },
-          ({ data }) => this.setState({ errors: data, isLoading: false })
-        );
+      this.props.userSignupRequest(this.state).then(
+        (res) => {
+          this.props.addFlashMessage({
+            type: "success",
+            text: "You signed up successfully, Welcome!"
+          });
+          this.context.router.push('/');
+        },
+        ({ data }) => this.setState({ errors: data, isLoading: false })
+      );
     }
   }
 
@@ -51,36 +84,40 @@ class SignupForm extends React.Component {
     const errors = this.state;
     return (
       <form onSubmit={this.onSubmit}>
+
         <h1> Join Postit!</h1>
 
         <TextFieldGroup
-        error={errors.username}
-        label="username"
-        onChange = {this.onChange}
-        value={this.state.username}
-        field = "username"/>
+          error={errors.username}
+          label="Username"
+          onChange={this.onChange}
+          value={this.state.username}
+          field="username"
+        />
 
         <TextFieldGroup
-        error={errors.email}
-        label="email"
-        onChange = {this.onChange}
-        value={this.state.email}
-        field = "email"/>
+          error={errors.email}
+          label="Email"
+          onChange={this.onChange}
+          value={this.state.email}
+          field="email"
+        />
 
         <TextFieldGroup
-        error={errors.password}
-        label="password"
-        onChange = {this.onChange}
-        value={this.state.password}
-        field = "password"/>
+          error={errors.password}
+          label="Password"
+          onChange={this.onChange}
+          value={this.state.password}
+          field="password"
+        />
 
         <TextFieldGroup
-        error={errors.confirmPassword}
-        label="confirmPassword"
-        onChange = {this.onChange}
-        value={this.state.confirmPassword}
-        field = "confirmPassword"/>
-
+          error={errors.confirmPassword}
+          label="ConfirmPassword"
+          onChange={this.onChange}
+          value={this.state.confirmPassword}
+          field="confirmPassword"
+        />
 
         <div className="form-group">
           <button
@@ -110,6 +147,12 @@ class SignupForm extends React.Component {
   }
 }
 SignupForm.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
-};
+  userSignupRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
+}
+
+SignupForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
 export default SignupForm;
