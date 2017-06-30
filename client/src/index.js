@@ -8,6 +8,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import { Router, browserHistory } from "react-router";
 import rootReducer from "./rootReducer";
+import setAuthorizationToken from "./signup/setAuthorizationToken";
 
 const store = createStore(
   rootReducer,
@@ -16,6 +17,7 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
+setAuthorizationToken(localStorage.jwtToken);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />

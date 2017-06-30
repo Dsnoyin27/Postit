@@ -2,40 +2,36 @@ import React from "react";
 import classnames from "classnames";
 import TextFieldGroup from "./TextFieldGroup";
 import { browserHistory } from "react-router";
-import {addFlashMessage} from "./flashMessages";
+import { addFlashMessage } from "./flashMessages";
 import Validator from "validator";
+import {isUserExists} from "./signupActions";
 import isEmpty from "lodash/isEmpty";
 
-
-function validateInput(data){
+function validateInput(data) {
   let errors = {};
-  if (Validator.isNull(data.username)) {
+  if (Validator.isEmpty(data.username)) {
     errors.username = "This field is required";
   }
-  if (Validator.isNull(data.email)) {
+  if (Validator.isEmpty(data.email)) {
     errors.email = "This field is required";
   }
-  if(!Validator.isEmail(data.email)){
+  if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
-  if (Validator.isNull(data.password)) {
+  if (Validator.isEmpty(data.password)) {
     errors.password = "This field is required";
   }
-  if (Validator.isNull(data.confirmPassword)) {
+  if (Validator.isEmpty(data.confirmPassword)) {
     errors.confirmPassword = "This field is required";
   }
-  if(!Validator.equals(data.password, data.confirmPassword)){
+  if (!Validator.equals(data.password, data.confirmPassword)) {
     errors.confirmPassword = "Password must match";
   }
-  return{
+  return {
     errors,
-    isvalid: isEmpty(errors)
-  }
-
+    isValid: isEmpty(errors)
+  };
 }
-
-
-
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -62,33 +58,56 @@ class SignupForm extends React.Component {
     }
     return isValid;
   }
+checkUserExists(e){
+  const field = e.target.name;
+  const val = e.target.value;
+  if(val !== "") {
+    this.props.isUserExists(val).then(res => {
+      let errors = this.sate.errors;
+      let invalid;
+      if(res.data.user) {
+        errors[field] = "There is a user with" + field;
+        invalid =true;
+      } else {
+        errors[field] = "";
+        invalid =false;
+      }
+      this.setState({errors, invalid});
+    });
+  }
+}
 
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.userSignupRequest(this.state).then(
-        (res) => {
+        res => {
           this.props.addFlashMessage({
             type: "success",
             text: "You signed up successfully, Welcome!"
           });
-          this.context.router.push('/');
+          this.context.router.push("/");
         },
-        ({ data }) => this.setState({ errors: data, isLoading: false })
+        ({ err }) => this.setState({ errors: err.response.data, isLoading: false })
       );
     }
   }
 
   render() {
-    const errors = this.state;
+    const { errors } = this.state;
+
     return (
       <form onSubmit={this.onSubmit}>
-
         <h1> Join Postit!</h1>
 
+        {errors.form &&
+          <div className="alert alert-danger">
+            {errors.form}
+          </div>}
+
         <TextFieldGroup
-          error={errors.username}
+          errors={errors.username}
           label="Username"
           onChange={this.onChange}
           value={this.state.username}
@@ -96,7 +115,7 @@ class SignupForm extends React.Component {
         />
 
         <TextFieldGroup
-          error={errors.email}
+          errors={errors.email}
           label="Email"
           onChange={this.onChange}
           value={this.state.email}
@@ -104,32 +123,34 @@ class SignupForm extends React.Component {
         />
 
         <TextFieldGroup
-          error={errors.password}
+          errors={errors.password}
           label="Password"
           onChange={this.onChange}
           value={this.state.password}
           field="password"
+          type="password"
         />
 
         <TextFieldGroup
-          error={errors.confirmPassword}
+          errors={errors.confirmPassword}
           label="ConfirmPassword"
           onChange={this.onChange}
           value={this.state.confirmPassword}
           field="confirmPassword"
+          type="password"
         />
 
         <div className="form-group">
           <button
             disabled={this.state.isLoading}
             className="btn btn-primary btn-lg"
-            basic
-            color="purple"
           >
             Sign up
           </button>
         </div>
-        <div><h4>Or</h4></div>
+        <div>
+          <h4>Or</h4>
+        </div>
 
         <div className="form-group">
           <a
@@ -137,7 +158,7 @@ class SignupForm extends React.Component {
             target="blank"
           >
             <button className="btn btn-primary btn-danger btn-lg">
-              <i aria-hidden="true" class="google plus icon" /> Signup with
+              <i aria-hidden="true" className="google plus icon" /> Signup with
               Google
             </button>
           </a>
@@ -148,11 +169,12 @@ class SignupForm extends React.Component {
 }
 SignupForm.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
-}
+  addFlashMessage: React.PropTypes.func.isRequired,
+  isUserExists: React.PropTypes.func.isRequired
+};
 
 SignupForm.contextTypes = {
   router: React.PropTypes.object.isRequired
-}
+};
 
 export default SignupForm;
