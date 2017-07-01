@@ -7,8 +7,10 @@ const bodyParser = require('body-parser');
 
 const indexRoutes = require('./routes/index');
 const apiRoutes = require('./routes/api');
-
+const users = require("./routes/api");
 const app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

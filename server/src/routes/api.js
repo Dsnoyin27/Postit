@@ -6,6 +6,8 @@ const groupsController = require("../controllers/groupsController");
 const messagesController = require("../controllers/messagesController");
 const jwtauth = require("../helpers/jwt-auth");
 
+
+
 /* GET users listing. */
 router.get("/", function(req, res, next) {
   res.send("respond with a resource");

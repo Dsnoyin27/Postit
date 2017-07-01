@@ -1,15 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
-import "./index.css";
 import routes from "./routes";
 import thunk from "redux-thunk";
 import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
-import { Router, browserHistory } from "react-router";
+import {Route, Router, browserHistory } from "react-router";
 import rootReducer from "./rootReducer";
 import setAuthorizationToken from "./signup/setAuthorizationToken";
-
 const store = createStore(
   rootReducer,
   compose(
@@ -25,3 +23,5 @@ ReactDOM.render(
   document.getElementById("root")
 );
 registerServiceWorker();
+
+
