@@ -20,7 +20,7 @@ function validateInput(data) {
   };
 }
 
-class LoginForm extends React.Component {
+class NewEventForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,12 +105,12 @@ class LoginForm extends React.Component {
   }
 }
 
-LoginForm.propTypes = {
+NewEventForm.propTypes = {
   login: React.PropTypes.func.isRequired
 };
 
-LoginForm.contextTypes = {
+NewEventForm.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-export default connect(null, { login })(LoginForm);
+export default connect(null, { login })(NewEventForm);

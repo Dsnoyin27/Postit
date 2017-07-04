@@ -2,9 +2,14 @@ import React from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 import { logout } from "./signup/loginActions";
-import { isAuthenticated } from "./auth";
 
 class NavigationBar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.logout = this.logout.bind(this);
+  }
+
   logout(e) {
     e.preventDefault();
     this.props.logout();
@@ -20,13 +25,13 @@ class NavigationBar extends React.Component {
             Logout
           </a>
         </li>
+        <li>
+          <Link to="/chatPage">chatPage</Link>
+        </li>
       </ul>
     );
     const guestLink = (
       <ul className="nav navbar-nav navbar-right">
-        <li>
-          <a href="#">Logout</a>
-        </li>
         <li>
           <Link to="/signup">Sign up</Link>
         </li>
@@ -38,15 +43,13 @@ class NavigationBar extends React.Component {
 
     return (
       <header>
-        <nav className="navbar navbar-default">
+        <nav className="nav-wrapper">
           <div className="container-fluid">
-            <div className="navbar-header">
-              <Link to="/" className="navbar-brand">
-                Postit
-              </Link>
-            </div>
+            <Link to="/" className="brand-logo">
+              Postit
+            </Link>
 
-            <div className="collapse navbar-collapse">
+            <div className="right hide-on-med-and-down">
               {isAuthenticated ? userLink : guestLink}
             </div>
           </div>

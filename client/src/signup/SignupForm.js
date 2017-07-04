@@ -12,8 +12,8 @@ function validateInput(data) {
   if (Validator.isEmpty(data.username)) {
     errors.username = "This field is required";
   }
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "This field is required";
+  if (Validator.isEmail(data.email)) {
+    errors.email = "Email is invalid";
   }
   if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
@@ -87,7 +87,7 @@ checkUserExists(e){
             type: "success",
             text: "You signed up successfully, Welcome!"
           });
-          this.context.router.push("/");
+          this.context.router.push("/login");
         },
         ({ err }) => this.setState({ errors: err.response.data, isLoading: false })
       );
@@ -98,6 +98,7 @@ checkUserExists(e){
     const { errors } = this.state;
 
     return (
+      <div className="container">
       <form onSubmit={this.onSubmit}>
         <h1> Join Postit!</h1>
 
@@ -164,6 +165,7 @@ checkUserExists(e){
           </a>
         </div>
       </form>
+      </div>
     );
   }
 }

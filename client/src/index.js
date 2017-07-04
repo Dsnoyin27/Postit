@@ -3,23 +3,28 @@ import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import routes from "./routes";
 import thunk from "redux-thunk";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import {Route, Router, browserHistory } from "react-router";
+import { Router, browserHistory } from "react-router";
 import rootReducer from "./rootReducer";
 import setAuthorizationToken from "./signup/setAuthorizationToken";
+import {composeWithDevTools} from "redux-devtools-extension";
+import "./index.css";
+import {BrowserRouter} from "react-router-dom";
+
 const store = createStore(
   rootReducer,
-  compose(
+  composeWithDevTools(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
 setAuthorizationToken(localStorage.jwtToken);
 ReactDOM.render(
+  <BrowserRouter>
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
-  </Provider>,
+  </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 registerServiceWorker();
