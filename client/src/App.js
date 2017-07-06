@@ -4,7 +4,6 @@ import NavigationBar from "./NavigationBar";
 import FlashMessagesList from "./FlashMessagesList";
 
 
-
 class App extends Component {
   render() {
     return (
@@ -12,6 +11,7 @@ class App extends Component {
         <NavigationBar />
         <FlashMessagesList />
         {this.props.children}
+
       </div>
     );
   }

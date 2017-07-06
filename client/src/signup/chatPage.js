@@ -1,18 +1,20 @@
 import React from "react";
 import "./chatPage.css";
 
-
-
 class chatPage extends React.Component {
   render() {
     return (
       <div>
+
+
         <body>
           <nav>
             <div className="nav-wrapper">
               <a href="#" className="brand-logo">
                 Group A
+
               </a>
+
               <ul id="nav-mobile" className="right hide-on-med-and-down">
                 {/*<!-- Dropdown Trigger -->*/}
                 <a className='dropdown-button btn' href='#' data-activates='dropdown1'>Other Options</a>
@@ -40,6 +42,9 @@ class chatPage extends React.Component {
                   </li>
                 </ul>
               </ul>
+              <div id="nav-mobile" className="right hide-on-med-and-down">
+
+                </div>
             </div>
           </nav>
 
@@ -47,12 +52,29 @@ class chatPage extends React.Component {
             <div className="chatlog">
               <div className="chat friend">
                 <div className="user-photo" />
-                <p className="chat-message">Hello</p>
+                <p className="chat-message">Hello
+                </p>
               </div>
 
               <div className="chat self">
                 <div className="user-photo" />
-                <p className="chat-message"> Hi!</p>
+                <p className="chat-message">
+                   Hi!
+                   </p>
+              </div>
+
+              <div className="chat friend">
+                <div className="user-photo" />
+                <p className="chat-message">
+                   Hello!
+                   </p>
+              </div>
+
+              <div className="chat self">
+                <div className="user-photo" />
+                <p className="chat-message">
+                   Hi!
+                   </p>
               </div>
 
               <div className="chat friend">
@@ -62,17 +84,7 @@ class chatPage extends React.Component {
 
               <div className="chat self">
                 <div className="user-photo" />
-                <p className="chat-message"> Hi!</p>
-              </div>
-
-              <div className="chat friend">
-                <div className="user-photo" />
-                <p className="chat-message"> Hello!</p>
-              </div>
-
-              <div className="chat self">
-                <div className="user-photo" />
-                <p className="chat-message"> Hi!</p>
+                <p className="chat-message">Hi! </p>
               </div>
 
               <div className="chat-form">

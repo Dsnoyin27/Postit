@@ -23,10 +23,12 @@ ReactDOM.render(
   <BrowserRouter>
   <Provider store={store}>
     <Router history={browserHistory} routes={routes} />
+
   </Provider>
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+
+
 registerServiceWorker();
-
-

@@ -4,15 +4,18 @@ import App from "./App";
 import Greetings from "./Greetings";
 import SignupPage from "./signup/SignupPage";
 import LoginPage from "./signup/LoginPage";
+import GroupsPage from "./signup/GroupsPage";
 import chatPage from "./signup/chatPage";
-import NewEventPage from "./signup/NewEventPage";
+import GroupForm from "./signup/GroupForm";
+
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Greetings} />
     <Route path="/signup" component={SignupPage} />
     <Route path="/login" component={LoginPage} />
-    <Route path="/chatpage" component={chatPage}/>
-    <Route path="/new-event" component={NewEventPage}/>
+    <Route path="/groups" component={GroupsPage}/>
+    <Route path="/groups/new" component={GroupForm}/>
+    <Route path="/chatPage" component={chatPage}/>
   </Route>
 );

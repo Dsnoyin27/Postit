@@ -28,7 +28,11 @@ class NavigationBar extends React.Component {
         <li>
           <Link to="/chatPage">chatPage</Link>
         </li>
+        <li>
+          <Link to="/groups">Create Group</Link>
+        </li>
       </ul>
+
     );
     const guestLink = (
       <ul className="nav navbar-nav navbar-right">

@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import flashMessages from "./reducers/flashMessages";
 import auth from "./auth";
-import messages from "./signup/messages";
+import groups from "./signup/groups";
 
 export default combineReducers({
-  messages,
+  groups,
   flashMessages,
   auth,
 
