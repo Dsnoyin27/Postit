@@ -2,11 +2,16 @@ const users = require("../models/users");
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
+  const authorizationHeader = req.headers["authorization"];
+  let token;
+  if(authorizationHeader){
+    token = authorizationHeader.split(" ")[1];
+  }
   // code goes here
-  const token =
-    (req.body && req.body.access_token) ||
-    (req.query && req.query.access_token) ||
-    req.headers["x-access-token"];
+  // const token =
+  //   (req.body && req.body.access_token) ||
+  //   (req.query && req.query.access_token) ||
+  //   req.headers["x-access-token"];
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {

@@ -1,20 +1,20 @@
-const Users = require("../models").users;
-const bcrypt = require("bcrypt");
+const Users = require('../models').users;
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-const express = require("express");
+const express = require('express');
 
 let router = express.Router();
 
 function signToken(obj) {
   return jwt.sign(obj, process.env.JWT_SECRET, {
-    expiresIn: "60 days" // 60 days
+    expiresIn: '60 days' // 60 days
   });
 }
 
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   setTimeout(() => {
     const { errors, isValid } = validateInput(req.body);
     if (!isValid) {
@@ -35,7 +35,9 @@ function signup(req, res) {
     }
   }).then(user => {
     if (user) {
-      return res.send({ message: "Account already exists, please signin" });
+      return res
+        .status(401)
+        .send({ message: 'Account already exists, please signin' });
     }
 
     Users.create({
@@ -48,7 +50,7 @@ function signup(req, res) {
         res.status(201).json({
           token,
           success: true,
-          message: "User has been signed up successfully",
+          message: 'User has been signed up successfully',
           username: user.username
         });
       })
@@ -67,15 +69,17 @@ function signin(req, res) {
       return res.status(401).send({
         errors: {
           success: false,
-          form: "Invalid Credentials"
+          form: 'Invalid Credentials'
         }
       });
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      return res.status(401).send({ errors: {
-        success: false,
-        message: "Invalid Credentials"}
+      return res.status(401).send({
+        errors: {
+          success: false,
+          message: 'Invalid Credentials'
+        }
       });
     }
 
@@ -84,7 +88,7 @@ function signin(req, res) {
     res.status(201).send({
       token,
       success: true,
-      message: "User successfully signed in!"
+      message: 'User successfully signed in!'
     });
   });
 }

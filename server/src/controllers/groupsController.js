@@ -1,6 +1,54 @@
-const groups = require("../models").groups;
-const groupMembers = require("../models").group_members;
-const users = require("../models").users;
+const groups = require('../models').groups;
+const groupMembers = require('../models').group_members;
+const users = require('../models').users;
+const sequelize = require('sequelize');
+
+groups.hasMany(groupMembers, { foreignKey: 'group_id' });
+groupMembers.belongsTo(groups, {
+  foreignKey: 'group_id',
+  targetKey: 'id'
+});
+
+function listGroups(req, res) {
+  const { username } = req.payload;
+
+  const ownedGroupsPromise = groups.findAll({
+    where: {
+      username
+    }
+  });
+
+  const belongToPromise = groupMembers.findAll({
+    where: {
+      username: 'test'
+    },
+    include: [groups]
+  });
+
+  Promise.all([
+    ownedGroupsPromise,
+    belongToPromise
+  ]).then(([ownedGroups, belongTo]) => {
+    let groupUserBelongsTo = [];
+    let groupUserOwns = [];
+
+    if (belongTo.length) {
+      groupUserBelongsTo = belongTo.map(memberships => {
+        return Object.assign({}, memberships.group.dataValues, {
+          isOwner: false
+        });
+      });
+    }
+
+    if (ownedGroups.length) {
+      groupUserOwns = ownedGroups.map(group => {
+        return Object.assign({}, group.dataValues, { isOwner: true });
+      });
+    }
+    const groups = [...groupUserOwns, ...groupUserBelongsTo];
+    res.status(200).send({ groups });
+  });
+}
 
 // create a group
 function createGroup(req, res) {
@@ -8,7 +56,7 @@ function createGroup(req, res) {
   const { username } = req.payload;
 
   if (!groupname) {
-    return res.status(400).send({ message: "Enter group name" });
+    return res.status(400).send({ message: 'Enter group name' });
   }
 
   groups
@@ -19,7 +67,7 @@ function createGroup(req, res) {
     })
     .then(group => {
       if (group) {
-        return res.status(400).send({ message: "Group already exist" });
+        return res.status(400).send({ message: 'Group already exist' });
       }
 
       groups
@@ -30,15 +78,15 @@ function createGroup(req, res) {
         .then(group => {
           res.status(201).send({
             groupname,
-            groupID: group.id,
+            id: group.id,
             success: true,
-            message: "Group created successfully"
+            message: 'Group created successfully'
           });
         })
         .catch(error => {
           console.error(error);
           res.status(400).send({
-            message: "An error occured creating the group."
+            message: 'An error occured creating the group.'
           });
         });
     });
@@ -50,7 +98,7 @@ function addGroupUser(req, res) {
   const { username } = req.body;
 
   if (!username || !groupID) {
-    return res.status(401).send({ message: "Enter username and group ID" });
+    return res.status(401).send({ message: 'Enter username and group ID' });
   }
 
   const userPromise = users.findOne({
@@ -74,17 +122,17 @@ function addGroupUser(req, res) {
   Promise.all([userPromise, groupPromise, groupMemberPromise])
     .then(([userToAdd, groupToJoin, groupMember]) => {
       if (!userToAdd) {
-        return res.status(400).send({ message: "User does not exist." });
+        return res.status(400).send({ message: 'User does not exist.' });
       }
 
       if (!groupToJoin) {
-        return res.status(400).send({ message: "Group does not exist." });
+        return res.status(400).send({ message: 'Group does not exist.' });
       }
 
       if (groupMember) {
         return res
           .status(400)
-          .send({ message: "User already member of the group." });
+          .send({ message: 'User already member of the group.' });
       }
 
       groupMembers
@@ -94,7 +142,7 @@ function addGroupUser(req, res) {
         })
         .then(() =>
           res.status(201).send({
-            message: "User Added successfully"
+            message: 'User Added successfully'
           })
         );
     })
@@ -102,11 +150,12 @@ function addGroupUser(req, res) {
       console.error(error);
       res
         .status(400)
-        .send({ message: "The user could not be added to the group." });
+        .send({ message: 'The user could not be added to the group.' });
     });
 }
 
 module.exports = {
   createGroup,
-  addGroupUser
+  addGroupUser,
+  listGroups
 };
